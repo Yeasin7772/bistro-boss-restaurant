@@ -1,16 +1,31 @@
 import { Link } from 'react-router-dom'
+import useAuth from '../hooks/useAuth';
 const NavBar = () => {
+    const { user, logOut } = useAuth()
+
+    const handelLogOut = () => {
+        logOut()
+        .then(result => {
+            const user = result.user
+            console.log(user);
+        })
+        .catch(error => {
+            console.error(error);
+        })
+    }
 
     const navLinks =
         <>
-            <li><Link to='/'>Home</Link></li>
-            <li><Link to='/menu'>Our Menu</Link></li>
-            <li><Link to='/order/salad'>Order Food</Link></li>
+            <li className='text-xl font-medium'><Link to='/'>Home</Link></li>
+            <li className='text-xl font-medium'><Link to='/menu'>Our Menu</Link></li>
+            <li className='text-xl font-medium'><Link to='/order/salad'>Order Food</Link></li>
+            <li className='text-xl font-medium'><Link to='/contact'>CONTACT US</Link></li>
+            <li className='text-xl font-medium'> <Link to='/dashboard'>DASHBOARD</Link></li>
         </>
 
     return (
         <>
-            <div className="navbar fixed z-10 bg-opacity-10 text-white max-w-screen-xl bg-base-100">
+            <div className="navbar fixed z-10 bg-opacity-10 lg:text-white max-w-screen-xl bg-[#15151580] uppercase">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -22,7 +37,7 @@ const NavBar = () => {
 
                         </ul>
                     </div>
-                    <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+                    <a className="btn btn-ghost normal-case text-xl">BISTRO BOSS <br />Restaurant</a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
@@ -30,7 +45,12 @@ const NavBar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Button</a>
+                    {
+                        user ? <Link ><button onClick={handelLogOut} className='btn btn-ghost'>Log Out</button></Link>
+                            :
+                            <Link to='/login'><button className='btn btn-outline btn-secondary'>Login</button></Link>
+
+                    }
                 </div>
             </div>
 

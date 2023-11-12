@@ -4,6 +4,7 @@ import Featured from "./Featured";
 import Banner from "./Header/Banner";
 import PopularMenu from "./PopularMenu";
 import Testimonials from "./Testimonials";
+import ContactInfo from "./ContactInfo/ContactInfo";
 
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
             <Banner/>
             <Category/>
             <PopularMenu/>
+            <ContactInfo/>
             <Featured/>
             <Testimonials/>
         </div>
