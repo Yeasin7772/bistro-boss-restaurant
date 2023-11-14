@@ -1,17 +1,20 @@
 import { Link } from 'react-router-dom'
 import useAuth from '../hooks/useAuth';
+import { FaCartPlus } from "react-icons/fa";
+import useCart from '../hooks/useCart';
 const NavBar = () => {
     const { user, logOut } = useAuth()
+    const [cart] = useCart()
 
     const handelLogOut = () => {
         logOut()
-        .then(result => {
-            const user = result.user
-            console.log(user);
-        })
-        .catch(error => {
-            console.error(error);
-        })
+            .then(result => {
+                const user = result.user
+                console.log(user);
+            })
+            .catch(error => {
+                console.error(error);
+            })
     }
 
     const navLinks =
@@ -21,6 +24,13 @@ const NavBar = () => {
             <li className='text-xl font-medium'><Link to='/order/salad'>Order Food</Link></li>
             <li className='text-xl font-medium'><Link to='/contact'>CONTACT US</Link></li>
             <li className='text-xl font-medium'> <Link to='/dashboard'>DASHBOARD</Link></li>
+            <li className='text-xl font-medium'>
+                <Link to='/dashboard/cart'>
+                    <button className="btn">
+                        <FaCartPlus />
+                        <div className="badge badge-secondary">+{cart.length}</div>
+                    </button>
+                </Link></li>
         </>
 
     return (

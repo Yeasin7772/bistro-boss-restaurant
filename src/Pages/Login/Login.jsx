@@ -11,6 +11,7 @@ const Login = () => {
     const location = useLocation()
 
     const from = location.state?.from?.pathname || '/'
+    console.log('state in the location login page', location.state);
 
     const { logIn } = useAuth()
     useEffect(() => {
@@ -94,12 +95,13 @@ const Login = () => {
                                 <label className="label">
                                     <LoadCanvasTemplate />
                                 </label>
-                                <input onBlur={handelValidateCaptcha} name="captcha" type="text" placeholder="type the captcha above" className="input input-bordered" required />
+                                <input onBlur={handelValidateCaptcha} name="captcha" type="text" placeholder="type the captcha above" className="input input-bordered"  />
 
 
                             </div>
                             <div className="form-control mt-6">
-                                <input disabled={disabled} className="btn btn-primary" type="submit" value="Login" />
+                                {/* TODO: pore mone koira disable koira dite hbe */}
+                                <input disabled={false} className="btn btn-primary" type="submit" value="Login" />
                             </div>
                         </form>
                         <div className='my-4 text-center'>
