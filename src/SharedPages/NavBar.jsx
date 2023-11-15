@@ -4,7 +4,7 @@ import { FaCartPlus } from "react-icons/fa";
 import useCart from '../hooks/useCart';
 const NavBar = () => {
     const { user, logOut } = useAuth()
-    const [cart] = useCart()
+    const {cart} = useCart()
 
     const handelLogOut = () => {
         logOut()

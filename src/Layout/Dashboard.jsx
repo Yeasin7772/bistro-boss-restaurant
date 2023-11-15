@@ -1,9 +1,11 @@
-import { FaAd, FaClipboardList, FaCalendar, FaHome, FaShoppingCart, FaSearch } from "react-icons/fa";
+import { FaAd, FaClipboardList, FaCalendar, FaHome, FaShoppingCart, FaEnvelope } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../hooks/useCart";
 
 const Dashboard = () => {
-    const [cart] = useCart()
+    const { cart } = useCart()
+    // TODO: get isAdmin value from the database
+    const isAdmin = true
     return (
         <div className="flex">
             <div className="w-64 min-h-screen bg-orange-400">
@@ -28,7 +30,7 @@ const Dashboard = () => {
                         <NavLink to='/'> <FaHome />  Home</NavLink>
                     </li>
                     <li>
-                        <NavLink to='/order/salad'> <FaSearch />  Menu</NavLink>
+                        <NavLink to='/order/salad'> <FaEnvelope />  Contact</NavLink>
                     </li>
 
 

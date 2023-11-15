@@ -8,7 +8,7 @@ const FoodCard = ({ item }) => {
     const { user } = useAuth()
     const navigate = useNavigate()
     const location = useLocation()
-    const [refetch] = useCart()
+    const{ refetch} = useCart()
 
 
     const handelAddToCart = (food) => {
@@ -26,7 +26,7 @@ const FoodCard = ({ item }) => {
             }
             axiosSecure.post('/carts', cartItem)
                 .then(res => {
-                    //  console.log(res.data);
+                      console.log(res.data);
                     if (res.data.insertedId) {
                         Swal.fire({
                             position: "top-end",
