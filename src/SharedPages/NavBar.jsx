@@ -4,7 +4,7 @@ import { FaCartPlus } from "react-icons/fa";
 import useCart from '../hooks/useCart';
 const NavBar = () => {
     const { user, logOut } = useAuth()
-    const {cart} = useCart()
+    const { cart } = useCart()
 
     const handelLogOut = () => {
         logOut()
@@ -26,10 +26,13 @@ const NavBar = () => {
             <li className='text-xl font-medium'> <Link to='/dashboard'>DASHBOARD</Link></li>
             <li className='text-xl font-medium'>
                 <Link to='/dashboard/cart'>
-                    <button className="btn">
+                    <div className='flex justify-center items-center text-yellow-500'>
                         <FaCartPlus />
-                        <div className="badge badge-secondary">+{cart.length}</div>
-                    </button>
+                        <div>+{cart.length}</div>
+                    </div>
+
+
+
                 </Link></li>
         </>
 
@@ -54,14 +57,46 @@ const NavBar = () => {
                         {navLinks}
                     </ul>
                 </div>
-                <div className="navbar-end">
+                {/* <div className="navbar-end">
                     {
                         user ? <Link ><button onClick={handelLogOut} className='btn btn-ghost'>Log Out</button></Link>
                             :
                             <Link to='/login'><button className='btn btn-outline btn-secondary'>Login</button></Link>
 
                     }
-                </div>
+                </div> */}
+                {
+                    user?.email ? <div className="dropdown dropdown-end">
+                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar online">
+                            <div className="w-12 rounded-full">
+                                <img src={user?.photoURL} alt='' />
+
+                            </div>
+                        </label>
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <li>
+                                <button className="btn btn-ghost text-black">{user.displayName}</button>
+
+                            </li>
+                            <li>
+                                <button className="btn text-red-600  btn-ghost"
+                                    onClick={handelLogOut}
+                                >Sign Out</button>
+
+                            </li>
+                        </ul>
+                    </div>
+                        :
+
+
+                        <Link to='/login'>
+                            <button className="btn btn-ghost">Sign In</button>
+                        </Link>
+
+
+
+
+                }
             </div>
 
         </>
