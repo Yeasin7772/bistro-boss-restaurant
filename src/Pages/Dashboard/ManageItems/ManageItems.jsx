@@ -3,13 +3,14 @@ import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import useMenu from "../../../hooks/useMenu";
 import useAxios from "../../../hooks/useAxios";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const ManageItems = () => {
     const [menu, refetch] = useMenu()
     const axiosSecure = useAxios()
 
     const handelDelete = (item) => {
-        //console.log(item);
+        console.log(item);
 
         Swal.fire({
             title: "Are you sure?",
@@ -76,9 +77,9 @@ const ManageItems = () => {
                                     </td>
                                     <td>{item?.price}</td>
                                     <td>
-                                        <button
+                                        <Link to={`/dashboard/updateItem/${item?._id}`}
                                             className="btn  btn-lg ">
-                                            <FaEdit className="text-[#D1A054] text-xl" /></button>
+                                            <FaEdit className="text-[#D1A054] text-xl" /></Link>
                                     </td>
                                     <td>
                                         <td>

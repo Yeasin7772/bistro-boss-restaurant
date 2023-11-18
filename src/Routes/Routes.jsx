@@ -13,6 +13,7 @@ import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import AddItems from "../Pages/Dashboard/AddItems/AddItems";
 import AdminRoute from "./AdminRoute";
 import ManageItems from "../Pages/Dashboard/ManageItems/ManageItems";
+import UpdateItem from "../Pages/Dashboard/UpdateItem/UpdateItem";
 
 const router = createBrowserRouter([
     {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
             {
                 path: '/order/:category',
                 element: <Order></Order>
-               
+
             },
             {
                 path: '/login',
@@ -44,27 +45,32 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path:'/dashboard',
-        element:<PrivateRoute><Dashboard/></PrivateRoute>,
-        children:[
+        path: '/dashboard',
+        element: <PrivateRoute><Dashboard /></PrivateRoute>,
+        children: [
             // normal user
             {
-                path:'cart',
-                element:<Cart/>
-            }, 
+                path: 'cart',
+                element: <Cart />
+            },
             //  admin routes only 
             {
-                path:'addItems',
-                element:<AdminRoute><AddItems/></AdminRoute>
+                path: 'addItems',
+                element: <AdminRoute><AddItems /></AdminRoute>
             },
             {
-                path:'manageItems',
-                element:<AdminRoute><ManageItems/></AdminRoute>
+                path: 'manageItems',
+                element: <AdminRoute><ManageItems /></AdminRoute>
+            },
+            {
+                path: 'updateItem/:id',
+                element: <AdminRoute><UpdateItem /></AdminRoute>,
+                loader: ({ params }) => fetch(`http://localhost:5000/menu/${params.id}`)
             },
 
             {
                 path: 'allUsers',
-                element:<AdminRoute><AllUsers/></AdminRoute>
+                element: <AdminRoute><AllUsers /></AdminRoute>
 
             }
         ]
