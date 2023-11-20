@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import useAxios from '../../../hooks/useAxios';
 import useCart from '../../../hooks/useCart';
 import useAuth from '../../../hooks/useAuth';
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom';
 
 
 const CheckoutForm = () => {
@@ -13,17 +15,20 @@ const CheckoutForm = () => {
     const stripe = useStripe()
     const elements = useElements()
     const axiosSecure = useAxios()
-    const { cart } = useCart()
+    const { cart, refetch } = useCart()
+    const navigate = useNavigate()
     const totalPrice = cart.reduce((total, item) => total + item?.price, 0)
 
 
     useEffect(() => {
-        axiosSecure.post('/create-payment-intent', { price: totalPrice })
-            .then(res => {
-                console.log(res.data.clientSecret);
-                setClientSecret(res.data.clientSecret);
+        if (totalPrice > 0) {
+            axiosSecure.post('/create-payment-intent', { price: totalPrice })
+                .then(res => {
+                    console.log(res.data.clientSecret);
+                    setClientSecret(res.data.clientSecret);
 
-            })
+                })
+        }
 
     }, [totalPrice, axiosSecure])
 
@@ -69,6 +74,30 @@ const CheckoutForm = () => {
             if (paymentIntent.status === 'succeeded') {
                 console.log('transaction id', paymentIntent.id);
                 setTransactionId(paymentIntent.id)
+
+                // now save the payment history in the database 
+
+                const payment = {
+                    email: user?.email,
+                    price: totalPrice,
+                    transactionId: paymentIntent.id,
+                    data: new Date(),
+                    cartIds: cart?.map(item => item?._id),
+                    menuItemIds: cart?.map(item => item?.menuId),
+                    status: 'pending'
+                }
+
+                const res = await axiosSecure.post('/payment', payment)
+                console.log('payment save', res);
+                refetch()
+                if (res.data?.paymentResult?.insertedId) {
+                    Swal.fire({
+                        title: "Good job!",
+                        text: "Thank you payment successfully",
+                        icon: "success"
+                    });
+                    navigate('/dashboard/paymentHistory')
+                }
             }
         }
     };
