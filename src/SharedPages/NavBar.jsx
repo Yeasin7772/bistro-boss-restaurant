@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import useAuth from '../hooks/useAuth';
 import { FaCartPlus } from "react-icons/fa";
 import useCart from '../hooks/useCart';
+import useAdmin from '../hooks/useAdmin';
 const NavBar = () => {
     const { user, logOut } = useAuth()
     const { cart } = useCart()
+    const { isAdmin } = useAdmin()
 
     const handelLogOut = () => {
         logOut()
@@ -23,7 +25,16 @@ const NavBar = () => {
             <li className='text-xl font-medium'><Link to='/menu'>Our Menu</Link></li>
             <li className='text-xl font-medium'><Link to='/order/salad'>Order Food</Link></li>
             <li className='text-xl font-medium'><Link to='/contact'>CONTACT US</Link></li>
-            <li className='text-xl font-medium'> <Link to='/dashboard'>DASHBOARD</Link></li>
+            {/* <li className='text-xl font-medium'> <Link to='/dashboard'>DASHBOARD</Link></li> */}
+            {
+                user && isAdmin &&  
+                <li className='text-xl font-medium'> <Link to='/dashboard/adminHome'>DASHBOARD</Link></li>
+            }
+            {
+                user && !isAdmin &&  
+                <li className='text-xl font-medium'> <Link to='/dashboard/userHome'>DASHBOARD</Link></li>
+            }
+
             <li className='text-xl font-medium'>
                 <Link to='/dashboard/cart'>
                     <div className='flex justify-center items-center text-yellow-500'>
